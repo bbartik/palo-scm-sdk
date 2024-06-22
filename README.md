@@ -65,13 +65,14 @@ palo-scm-sdk/
 
 Create a `.env` file in the root directory with the following content:
 
+```
 SCM_DEBUG=True # Set to False to disable detailed error messages
 CLIENT_ID=<palo-service-account-id> # Service account in Palo IAM
 CLIENT_SECRET=<palo-svc-acct-secret> # From service account in Palo IAM
 BASE_URL=https://api.sase.paloaltonetworks.com/sse/config/v1
 TOKEN_URL=https://auth.apps.paloaltonetworks.com/oauth2/access_token
 TSG_ID=<palo-tenant-id>
-
+```
 
 ### Running the Application
 
