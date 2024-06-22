@@ -93,7 +93,7 @@ python app/main.py
 
 You can use the SDK independently to interact with the Prisma SASE API. Here's a brief example:
 
-\```python
+```python
 from scm import AddressEndpoint
 
 address_endpoint = AddressEndpoint()
