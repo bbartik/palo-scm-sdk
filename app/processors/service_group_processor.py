@@ -1,11 +1,11 @@
 import pandas as pd
 from .base_processor import BaseProcessor
-from scm.scm import AddressGroupEndpoint
+from scm.scm import ServiceGroupsEndpoint
 
-class AddressGroupProcessor(BaseProcessor):
+class ServiceGroupProcessor(BaseProcessor):
     def __init__(self, file_path, folder_name):
         super().__init__(file_path)
-        self.endpoint = AddressGroupEndpoint()
+        self.endpoint = ServiceGroupsEndpoint()
         self.folder_name = folder_name
 
     def process(self):
@@ -14,14 +14,13 @@ class AddressGroupProcessor(BaseProcessor):
 
         for index, row in df.iterrows():
             group_name = row['Name']
-            members = row['Addresses'].split(';')
+            services = row['Services'].split(';')
             tags = row['Tags'].split(';') if pd.notna(row['Tags']) else []
 
-            address_group_data = {
+            service_group_data = {
                 "name": group_name,
-                "static": [member.strip() for member in members],
-                "tags": [tag.strip() for tag in tags] if tags else None
+                "members": [service.strip() for service in services],
+                "tag": [tag.strip() for tag in tags]
             }
 
-            self.process_object(self.endpoint, self.folder_name, address_group_data, group_name, "address group")
-
+            self.process_object(self.endpoint, self.folder_name, service_group_data, group_name, "service group")
