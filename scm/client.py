@@ -12,17 +12,17 @@ class StrataClient:
         response.raise_for_status()
         return response.json()
 
-    def post(self, endpoint, params=None, data=None):
-        response = self.client.post(endpoint, params=params, json=data)
+    def post(self, endpoint, params=None, json=None):
+        response = self.client.post(endpoint, params=params, json=json)
         response.raise_for_status()
-        return response.json()
+        return response
 
     def delete(self, endpoint, params=None):
         response = self.client.delete(endpoint, params=params)
         response.raise_for_status()
         return response.json()
 
-    def put(self, endpoint, params=None, data=None):
-        response = self.client.put(endpoint, params=params, json=data)
+    def put(self, endpoint, params=None, json=None):
+        response = self.client.put(endpoint, params=params, json=json)
         response.raise_for_status()
-        return response.json()
+        return response

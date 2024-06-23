@@ -9,6 +9,7 @@ class BaseEndpoint:
         self.client = StrataClient()
         self.resource = resource
 
+
     def get_all(self, folder):
         endpoint = f"/{self.resource}"
         params = {"folder": folder}
@@ -28,13 +29,39 @@ class BaseEndpoint:
         endpoint = f"/{self.resource}"
         params = {"folder": folder}
         try:
-            return self.client.post(endpoint, params=params, data=data)
+            response = self.client.post(endpoint, params=params, json=data)
+            response.raise_for_status()
+            return response
         except httpx.HTTPStatusError as e:
-            error_message = e.response.json()
-            if DEBUG:
-                print(f"Error: {e.response.status_code} - {error_message}")
+            if os.getenv('SCM_DEBUG', 'False').lower() in ('true', '1', 't'):
+                print(f"Error: {e.response.status_code} - {e.response.json()}")
+            return e.response
+
+    def update(self, folder, object_name, data):
+        # Fetch the UUID of the object to update
+        uuid_response = self.client.get(f"/{self.resource}", params={"name": object_name, "folder": folder})
+        if uuid_response:
+            uuid = uuid_response.get('id')  # Adjust the key if needed
+            if uuid:
+                endpoint = f"/{self.resource}/{uuid}"
+                params = {"folder": folder}
+                try:
+                    response = self.client.put(endpoint, params=params, json=data)
+                    response.raise_for_status()
+                    return response
+                except httpx.HTTPStatusError as e:
+                    if os.getenv('SCM_DEBUG', 'False').lower() in ('true', '1', 't'):
+                        print(f"Error: {e.response.status_code} - {e.response.json()}")
+                    return e.response
             else:
-                print(f"Error: Object {data.get('name')} cannot be created. Set SCM_DEBUG to True for more info.")
+                print(f"UUID not found in response for object: {object_name}")
+                if os.getenv('SCM_DEBUG', 'False').lower() in ('true', '1', 't'):
+                    print(f"Error: UUID not found in response: {uuid_response}")
+                return None
+        else:
+            print(f"Failed to find UUID for object: {object_name}")
+            if os.getenv('SCM_DEBUG', 'False').lower() in ('true', '1', 't'):
+                print(f"Error: No response received")
             return None
 
     def delete(self, folder, resource_id):
@@ -46,21 +73,6 @@ class BaseEndpoint:
             error_message = e.response.json()
             if DEBUG:
                 print(f"Error: {e.response.status_code} - {error_message}")
-            else:
-                print(f"Error: Object {data.get('name')} cannot be deleted. Set SCM_DEBUG to True for more info.")
-            return None
-
-    def update(self, folder, resource_id, data):
-        endpoint = f"/{self.resource}/{resource_id}"
-        params = {"folder": folder}
-        try:
-            return self.client.put(endpoint, params=params, data=data)
-        except httpx.HTTPStatusError as e:
-            error_message = e.response.json()
-            if DEBUG:
-                print(f"Error: {e.response.status_code} - {error_message}")
-            else:
-                print(f"Error: Object {data.get('name')} cannot be updated. Set SCM_DEBUG to True for more info.")
             return None
 
 
