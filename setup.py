@@ -13,7 +13,8 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'run-app=app.main:main',  # Ensure this points to the correct module
+            'run-app1=app1.main:main',  # Ensure this points to the correct module
+            'run-app2=app2.main:main',  # Ensure this points to the correct module
         ],
     },
 )

@@ -4,12 +4,12 @@ import sys
 # Ensure the app directory is in the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from app.processors.tag_processor import TagProcessor
-from app.processors.address_processor import AddressProcessor
-from app.processors.address_group_processor import AddressGroupProcessor
-from app.processors.service_processor import ServiceProcessor
-from app.processors.service_group_processor import ServiceGroupProcessor
-from app.processors.security_rule_processor import SecurityRuleProcessor
+from .processors.tag_processor import TagProcessor
+from .processors.address_processor import AddressProcessor
+from .processors.address_group_processor import AddressGroupProcessor
+from .processors.service_processor import ServiceProcessor
+from .processors.service_group_processor import ServiceGroupProcessor
+from .processors.security_rule_processor import SecurityRuleProcessor
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
