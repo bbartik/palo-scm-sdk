@@ -134,4 +134,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [httpx](https://github.com/encode/httpx)
 - [pandas](https://pandas.pydata.org/)
 
+## To do
 
+Add CSV upload support for:
+- Application Groups
+
+Add Security rule support for:
+- Add support for custom applications (must configure manually before uploading rulesets)
+- Add support for URL categories
+- Add support for HIP Profiles 
+- Add support for Security Profiles and Groups
+- Add support for logging profiles

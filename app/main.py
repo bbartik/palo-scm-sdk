@@ -9,7 +9,7 @@ from app.processors.address_processor import AddressProcessor
 from app.processors.address_group_processor import AddressGroupProcessor
 from app.processors.service_processor import ServiceProcessor
 from app.processors.service_group_processor import ServiceGroupProcessor
-
+from app.processors.security_rule_processor import SecurityRuleProcessor
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -18,6 +18,7 @@ def main():
     address_group_file_path = os.path.join(base_dir, 'csv', 'address_groups.csv')
     service_file_path = os.path.join(base_dir, 'csv', 'services.csv')
     service_group_file_path = os.path.join(base_dir, 'csv', 'service_groups.csv')
+    security_rule_file_path = os.path.join(base_dir, 'csv', 'security_rules.csv')
 
     folder_name = os.getenv('FOLDER_NAME', 'ngfw-shared')
 
@@ -26,12 +27,14 @@ def main():
     address_group_processor = AddressGroupProcessor(address_group_file_path, folder_name)
     service_processor = ServiceProcessor(service_file_path, folder_name)
     service_group_processor = ServiceGroupProcessor(service_group_file_path, folder_name)
+    security_rule_processor = SecurityRuleProcessor(security_rule_file_path, folder_name)
 
-    tag_processor.process()
-    address_processor.process()
-    address_group_processor.process()
-    service_processor.process()
-    service_group_processor.process()
+    # tag_processor.process()
+    # address_processor.process()
+    # address_group_processor.process()
+    # service_processor.process()
+    # service_group_processor.process()
+    security_rule_processor.process()
 
 if __name__ == "__main__":
     main()
